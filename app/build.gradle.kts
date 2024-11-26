@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "br.edu.up.rgm33824215"
+    namespace = "br.edu.up.rgm33436886"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "br.edu.up.rgm33824215"
+        applicationId = "br.edu.up.rgm33436886"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -61,6 +61,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
     implementation("androidx.navigation:navigation-compose:2.7.5")
+    testImplementation(libs.testng)
 
     // Testing
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

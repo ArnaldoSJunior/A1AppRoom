@@ -17,6 +17,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.dimensionResource
@@ -25,15 +26,18 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.edu.up.rgm33436886.InventoryTopAppBar
+import br.edu.up.rgm33436886.R
 import br.edu.up.rgm33436886.ui.AppViewModelProvider
-import br.edu.up.rgm33436886.ui.navigation.NaviagationDestination
+import br.edu.up.rgm33436886.ui.navigation.NavigationDestination
+
 import br.edu.up.rgm33436886.ui.theme.InventoryTheme
-import br.edu.up.rgm33824215.R
+import kotlinx.coroutines.launch
+
 
 import java.util.Currency
 import java.util.Locale
 
-object ItemEntryDestination : NaviagationDestination{
+object ItemEntryDestination : NavigationDestination {
     override val route = "item_entry"
     override val titleRes = R.string.item_entry_title
 }
@@ -46,6 +50,7 @@ fun ItemEntryScreen(
     canNavigateBack: Boolean = true,
     viewModel: ItemEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
+    val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             InventoryTopAppBar(
@@ -58,7 +63,10 @@ fun ItemEntryScreen(
         ItemEntryBody(
             itemUiState = viewModel.itemUiState,
             onItemValueChange = viewModel::updateUiState,
-            onSaveClick = { },
+            onSaveClick = {  coroutineScope.launch {
+                viewModel.saveItem()
+                navigateBack()
+            }},
             modifier = Modifier
                 .padding(
                     start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),

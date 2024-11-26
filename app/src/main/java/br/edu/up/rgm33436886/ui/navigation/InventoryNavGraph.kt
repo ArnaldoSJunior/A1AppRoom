@@ -15,7 +15,6 @@ import br.edu.up.rgm33436886.ui.item.ItemEditDestination
 import br.edu.up.rgm33436886.ui.item.ItemEditScreen
 import br.edu.up.rgm33436886.ui.item.ItemEntryDestination
 import br.edu.up.rgm33436886.ui.item.ItemEntryScreen
-
 @Composable
 fun InventoryNavHost(
     navController: NavHostController,

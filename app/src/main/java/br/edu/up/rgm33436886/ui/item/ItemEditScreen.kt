@@ -8,18 +8,21 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.edu.up.rgm33436886.InventoryTopAppBar
+import br.edu.up.rgm33436886.R
 import br.edu.up.rgm33436886.ui.AppViewModelProvider
-import br.edu.up.rgm33436886.ui.navigation.NaviagationDestination
+import br.edu.up.rgm33436886.ui.navigation.NavigationDestination
 import br.edu.up.rgm33436886.ui.theme.InventoryTheme
-import br.edu.up.rgm33824215.R
 
-object ItemEditDestination : NaviagationDestination {
+import kotlinx.coroutines.launch
+
+object ItemEditDestination : NavigationDestination {
     override val route = "item_edit"
     override val titleRes = R.string.edit_item_title
     const val itemIdArg = "itemId"
@@ -34,6 +37,7 @@ fun ItemEditScreen(
     modifier: Modifier = Modifier,
     viewModel: ItemEditViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
+    val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             InventoryTopAppBar(
@@ -46,8 +50,11 @@ fun ItemEditScreen(
     ) { innerPadding ->
         ItemEntryBody(
             itemUiState = viewModel.itemUiState,
-            onItemValueChange = { },
-            onSaveClick = { },
+            onItemValueChange = viewModel::updateUiState,
+            onSaveClick = { coroutineScope.launch {
+                viewModel.updateItem()
+                navigateBack()
+            } },
             modifier = Modifier
                 .padding(
                     start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),

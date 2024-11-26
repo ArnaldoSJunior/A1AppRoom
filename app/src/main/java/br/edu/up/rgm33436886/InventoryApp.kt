@@ -16,6 +16,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import br.edu.up.rgm33436886.ui.navigation.InventoryNavHost
 
+
 @Composable
 fun InventoryApp(navController: NavHostController = rememberNavController()) {
     InventoryNavHost(navController = navController)
@@ -40,7 +41,7 @@ fun InventoryTopAppBar(
                 IconButton(onClick = navigateUp) {
                     Icon(
                         imageVector = Filled.ArrowBack,
-                        contentDescription = stringResource(string.back_button)
+                        contentDescription = stringResource(R.string.back_button)
                     )
                 }
             }
